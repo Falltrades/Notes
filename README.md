@@ -1,6 +1,7 @@
 # Notes
 Just some personal random notes
 
+Add alias
 ```
 echo 'alias k=kubectl' >>~/.bashrc
 echo 'complete -o default -F __start_kubectl k' >>~/.bashrc
@@ -8,7 +9,7 @@ echo "source <(kubectl completion bash)" >> ~/.bashrc
 source ~/.bashrc
 ```
 
-# If need time to exec -it in a container to debug
+If need time to exec -it in a container to debug
 ```
     spec:
       containers:
@@ -17,12 +18,12 @@ source ~/.bashrc
         command: ["/bin/sleep", "infinity"]  # Sleep indefinitely, change the command as needed
 ```
 
-# Recursive sed
+Recursive sed
 ```
 find /some/file/path/ -type f -exec sed -i '/clusterIP/,+2d' {} \;
 ```
 
-# Get manifests
+Get manifests
 ```
 kubectl get cm -A| grep -v NAMESPACE | while read line; do
   pod_name=$(echo $line | awk '{print $2}' ) \
@@ -44,7 +45,7 @@ done
 
 ```
 
-# Delete non running pods
+Delete non running pods
 ```
 kubectl get pods -A -o wide | grep RUNNING -v| while read line; do
   pod_name=$(echo $line | awk '{print $2}' ) \
@@ -54,7 +55,7 @@ done
 
 ```
 
-# Check cluster
+Check cluster
 ```
 echo;echo |awk '{print "|---PodNum---|------IP------|--------CPU------|-----Memory----|-----storage----|"}';for i in `kubectl get no --no-headers -o name`;do kubectl describe $i > /tmp/tmp;printf "%-13s" "$(cat /tmp/tmp|sed -n '/^Non-terminated Pods/s/^.*(\(.*\))$/\1/p')";printf " %-14s" $(echo $i|awk -F'/' '{print $NF}');cat /tmp/tmp | awk '/^Allocated resources/,/^Event/{if($1=="cpu"||$1=="ephemeral-storage"||$1=="memory"){printf "%-1s %-7s %-7s"," ",$2,$3}}';echo;rm -f /tmp/tmp;done
 ```
