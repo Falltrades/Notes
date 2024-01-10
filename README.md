@@ -60,7 +60,7 @@ Check cluster
 echo;echo |awk '{print "|---PodNum---|------IP------|--------CPU------|-----Memory----|-----storage----|"}';for i in `kubectl get no --no-headers -o name`;do kubectl describe $i > /tmp/tmp;printf "%-13s" "$(cat /tmp/tmp|sed -n '/^Non-terminated Pods/s/^.*(\(.*\))$/\1/p')";printf " %-14s" $(echo $i|awk -F'/' '{print $NF}');cat /tmp/tmp | awk '/^Allocated resources/,/^Event/{if($1=="cpu"||$1=="ephemeral-storage"||$1=="memory"){printf "%-1s %-7s %-7s"," ",$2,$3}}';echo;rm -f /tmp/tmp;done
 ```
 
-# Change pod limit
+Change pod limit
 ```
 echo;echo -n 'Current';sed -n '/max-pod/p' /etc/systemd/system/kubelet.service;read -p "Input new max-pods=" a ;echo $a|[ -z "sed -n '/^[0-9][0-9]*$/p'" ] && echo 'Invalid input, Ctrl+C quit' && sleep 9999 || echo 'running...' ; sed -i '/max-pods/s/=[0-9]*/='$a'/' /etc/systemd/system/kubelet.service;sleep 1;systemctl daemon-reload && sleep 1;systemctl restart kubelet && echo 'Adjusted successfully' && cat /etc/systemd/system/kubelet.service | grep max-pod
 ```
@@ -69,7 +69,7 @@ echo;echo -n 'Current';sed -n '/max-pod/p' /etc/systemd/system/kubelet.service;r
 echo;echo -n 'Current ';sed -n '/maxPods/p' /var/lib/kubelet/config.yaml;read -p "Input new maxPods:" a ;echo $a|[ -z "sed -n '/^[0-9][0-9]*$/p'" ] && echo 'Invalid input, Ctrl+C quit' && sleep 9999 || echo 'running...' ; sed -i '/maxPods/s/: [0-9]*/: '$a'/' /var/lib/kubelet/config.yaml;sleep 1;systemctl daemon-reload && sleep 1;systemctl restart kubelet && echo 'Adjusted successfully' && cat /var/lib/kubelet/config.yaml | grep maxPods
 ```
 
-# check recently restarted pods
+Check recently restarted pods
 ```
 kubectl get po -A | egrep -v '[0-9]d|[0-9]h|[2-9][0-90]m|default'
 ```
