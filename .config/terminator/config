@@ -1,0 +1,44 @@
+[global_config]
+  suppress_multiple_term_dialog = True
+  putty_paste_style = True
+[keybindings]
+[profiles]
+  [[default]]
+[layouts]
+  [[default]]
+    [[[child0]]]
+      type = Window
+      parent = ""
+      order = 0
+      position = 0:0
+      maximised = True
+      fullscreen = False
+      size = 1850, 1011
+    [[[child1]]]
+      type = HPaned
+      parent = child0
+      order = 0
+      position = 922
+      ratio = 0.4997289972899729
+    [[[terminal2]]]
+      type = Terminal
+      parent = child1
+      order = 0
+      profile = default
+    [[[child3]]]
+      type = VPaned
+      parent = child1
+      order = 1
+      position = 503
+      ratio = 0.5
+    [[[terminal4]]]
+      type = Terminal
+      parent = child3
+      order = 0
+      profile = default
+    [[[terminal5]]]
+      type = Terminal
+      parent = child3
+      order = 1
+      profile = default
+[plugins]
